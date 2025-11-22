@@ -1,32 +1,35 @@
 // src/components/layout/dashboard-wrapper.tsx
+"use client"; // Client Component ekanligini bildiramiz
+
 import React from "react";
-// ✅ ThemeToggle komponentini import qilish
-import { ThemeToggle } from "@/components/shared/theme-toggle"; // Bu qatorni qo'shing!
+import { Sidebar } from "./sidebar";
+import { Header } from "./header";
+import { useSidebarStore } from "@/store/sidebar-store"; // Zustand store import qilamiz
+import { cn } from "@/lib/utils"; // cn utilitini import qilamiz
 
-// Kichik fiksirlangan Sidebar (80px) va asosiy content maydoni uchun layout
+// Asosiy Layout Wrapper
 export function DashboardWrapper({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-      {/* 8. Sidebar o'rni (Keyingi qadamda yaratiladi) */}
-      <aside className="w-20 fixed top-0 left-0 h-full border-r bg-white dark:bg-gray-800 dark:border-gray-700 shadow-md">
-        {/* Hozircha bo'sh, keyingi qadamda Sidebarni qo'yamiz */}
-        <div className="flex flex-col items-center justify-between h-full py-4">
-          <h1 className="text-xl font-bold text-primary dark:text-white">UZ</h1>
-          {/* Dark/Light mode tugmachasi pastda joylashadi */}
-          <ThemeToggle /> {/* Endi bu yerda xato bo'lmasligi kerak */}
-        </div>
-      </aside>
+  const { isOpen } = useSidebarStore(); // Sidebar holatini olamiz
 
-      {/* 9. Asosiy Content va Header */}
-      <main className="flex-1 ml-20">
-        {/* Header */}
-        <header className="sticky top-0 z-10 h-16 w-full border-b bg-white dark:bg-gray-800 dark:border-gray-700 flex items-center px-6 shadow-sm">
-          <h2 className="text-lg font-semibold">Dashboard Overview</h2>
-          {/* Kelajakda bu yerga Profil va Bildirishnomalar qo'yiladi */}
-        </header>
+  return (
+    <div className="flex min-h-screen">
+      {/* 1. Sidebar (Fixed) */}
+      <Sidebar />
+
+      {/* 2. Asosiy Content qismi */}
+      <main
+        className={cn(
+          "flex-1 transition-all duration-300 ease-in-out",
+          isOpen ? "ml-64" : "ml-20" // Sidebar kengligiga mos ravishda margin
+        )}
+      >
+        {/* Header (Sticky) */}
+        <Header />
 
         {/* Page Content */}
-        <div className="p-6">{children}</div>
+        <div className="p-6 bg-gray-50 dark:bg-gray-950 min-h-[calc(100vh-4rem)]">
+          {children}
+        </div>
       </main>
     </div>
   );
