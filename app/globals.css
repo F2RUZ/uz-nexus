@@ -1,1 +1,129 @@
 @import "tailwindcss";
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+}
+
+.leaflet-marker-icon {
+  transition: transform 2s linear;
+}
+
+/* Custom Car Icon uchun stil */
+.custom-car-icon {
+  background: none;
+  border: none;
+  display: flex; /* Flexbox ishlatamiz */
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-car-icon div {
+  /* Ikonka konteyneri uchun */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.3s ease-in-out, border-color 0.3s ease-in-out; /* Yumshoq animatsiya */
+}
+
+/* Faol (active) holatdagi marker border animatsiyasi */
+@keyframes pulse-border {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); /* green-500 */
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+.animate-pulse-border {
+  animation: pulse-border 2s infinite;
+}
+
+/* ========================================= */
+/* Leaflet Marker Cluster uchun stil */
+/* ========================================= */
+
+.marker-cluster-small {
+  background-color: rgba(106, 172, 230, 0.6); /* Blueish, 1-9 marker */
+}
+.marker-cluster-small div {
+  background-color: rgba(106, 172, 230, 0.9);
+}
+
+.marker-cluster-medium {
+  background-color: rgba(241, 211, 87, 0.6); /* Yellowish, 10-99 marker */
+}
+.marker-cluster-medium div {
+  background-color: rgba(241, 211, 87, 0.9);
+}
+
+.marker-cluster-large {
+  background-color: rgba(253, 156, 115, 0.6); /* Reddish, 100+ marker */
+}
+.marker-cluster-large div {
+  background-color: rgba(253, 156, 115, 0.9);
+}
+
+.marker-cluster {
+  background-clip: padding-box;
+  border-radius: 20px;
+}
+.marker-cluster div {
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  margin-top: 5px;
+
+  text-align: center;
+  border-radius: 15px;
+  font-size: 14px;
+  color: white;
+  line-height: 30px;
+  font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+.marker-cluster span {
+  line-height: 29px; /* Tekstni markazga to'g'rilash */
+}
+
+/* ========================================= */
+/* Custom Scrollbar Stili (Light Mode) */
+/* ========================================= */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px; /* Agar gorizontal scrollbar bo'lsa */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Light gray for track */
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #ccc; /* Darker gray for thumb */
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #aaa; /* Slightly darker on hover */
+}
+
+/* ========================================= */
+/* Custom Scrollbar Stili (Dark Mode) */
+/* ========================================= */
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+  background: #333; /* Darker gray for track in dark mode */
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #555; /* Even darker gray for thumb in dark mode */
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #777; /* Slightly darker on hover in dark mode */
+}
