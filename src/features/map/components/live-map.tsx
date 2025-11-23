@@ -24,10 +24,51 @@ export interface Device {
   speed: number;
   battery: number;
   lastUpdate: string;
-  // ✅ Yangi xususiyatlar: harakatni simulyatsiya qilish uchun
-  targetLat: number; // Endi majburiy
-  targetLng: number; // Endi majburiy
 }
+
+// Boshlang'ich ma'lumotlar
+const INITIAL_DEVICES: Device[] = [
+  {
+    id: 1,
+    name: "Toshkent Kuryeri #1",
+    lat: 41.3,
+    lng: 69.2401,
+    status: "active",
+    speed: 55,
+    battery: 85,
+    lastUpdate: "1 min old",
+  },
+  {
+    id: 2,
+    name: "Samarqand Yoki #2",
+    lat: 39.654,
+    lng: 66.972,
+    status: "idle",
+    speed: 0,
+    battery: 92,
+    lastUpdate: "10 min old",
+  },
+  {
+    id: 3,
+    name: "Buxoro Avtobusi #3",
+    lat: 39.77,
+    lng: 64.43,
+    status: "offline",
+    speed: 0,
+    battery: 10,
+    lastUpdate: "1 soat old",
+  },
+  {
+    id: 4,
+    name: "Qashqadaryo YK #4",
+    lat: 38.86,
+    lng: 65.78,
+    status: "active",
+    speed: 80,
+    battery: 70,
+    lastUpdate: "10 sec old",
+  },
+];
 
 // Custom marker ikonkalari
 const createCustomIcon = (status: Device["status"]) => {
@@ -42,20 +83,6 @@ const createCustomIcon = (status: Device["status"]) => {
     iconSize: [12, 12],
     iconAnchor: [6, 6],
   });
-};
-
-// Statusga qarab rangni aniqlash (DeviceCard dan olingan)
-const getStatusClasses = (status: Device["status"]) => {
-  switch (status) {
-    case "active":
-      return { text: "text-green-500", dot: "bg-green-500" };
-    case "idle":
-      return { text: "text-yellow-500", dot: "bg-yellow-500" };
-    case "offline":
-      return { text: "text-gray-500", dot: "bg-gray-500" };
-    default:
-      return { text: "text-gray-500", dot: "bg-gray-500" };
-  }
 };
 
 // Marker harakatini boshqaruvchi komponent
@@ -74,12 +101,12 @@ function SmoothMarker({
     if (activeMarkerId === device.id && markerRef.current) {
       map.flyTo(
         [device.lat, device.lng],
-        map.getZoom() < 10 ? 12 : map.getZoom(), // Zoom darajasini sozlash
+        map.getZoom() < 10 ? 12 : map.getZoom(),
         {
-          duration: 1.5, // Silliq animatsiya davomiyligi
+          duration: 1.5,
         }
       );
-      markerRef.current.openPopup(); // Fokuslanganda popupni ochish
+      markerRef.current.openPopup();
     }
   }, [activeMarkerId, map, device.id, device.lat, device.lng]);
 
@@ -98,14 +125,26 @@ function SmoothMarker({
             {device.status.toUpperCase()}
           </span>{" "}
           <br />
-          Tezlik: {device.speed} km/h <br />
-          Batareya: {device.battery}% <br />
-          So'nggi yangilanish: {device.lastUpdate}
+          Tezlik: {device.speed} km/h
         </div>
       </Popup>
     </Marker>
   );
 }
+
+// Statusga qarab rangni aniqlash
+const getStatusClasses = (status: Device["status"]) => {
+  switch (status) {
+    case "active":
+      return { text: "text-green-500", dot: "bg-green-500" };
+    case "idle":
+      return { text: "text-yellow-500", dot: "bg-yellow-500" };
+    case "offline":
+      return { text: "text-gray-500", dot: "bg-gray-500" };
+    default:
+      return { text: "text-gray-500", dot: "bg-gray-500" };
+  }
+};
 
 interface LiveMapContentProps {
   devices: Device[];
@@ -133,12 +172,16 @@ function MapContent({ devices, activeMarkerId }: LiveMapContentProps) {
 
 interface LiveMapProps {
   devices: Device[];
-  onDeviceFocus: (id: number) => void; // Bu prop hozircha LiveMap ichida ishlatilmaydi, lekin tashqaridan keladi
+  onDeviceFocus: (id: number) => void;
   activeMarkerId: number | null;
 }
 
-export function LiveMap({ devices, activeMarkerId }: LiveMapProps) {
-  const center = useMemo(() => [40.0, 66.9] as [number, number], []); // O'zbekiston markazi
+export function LiveMap({
+  devices,
+  onDeviceFocus,
+  activeMarkerId,
+}: LiveMapProps) {
+  const center = useMemo(() => [40.0, 66.9] as [number, number], []);
 
   return (
     <div className="h-full w-full rounded-xl overflow-hidden shadow-2xl">

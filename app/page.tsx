@@ -103,8 +103,6 @@ export default function LiveMonitoringPage() {
           );
 
           if (distance < 0.005) {
-            // Maqsadga yetib keldik
-            // Yangi tasodifiy maqsad tanlash (yaqin atrofdan)
             newDevice.targetLat = newDevice.lat + (Math.random() - 0.5) * 0.1;
             newDevice.targetLng = newDevice.lng + (Math.random() - 0.5) * 0.1;
 
