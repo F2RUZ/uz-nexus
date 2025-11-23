@@ -14,7 +14,7 @@ import { usePathname } from "next/navigation"; // Faol linkni aniqlash uchun
 import { ThemeToggle } from "../shared/theme-toggle";
 import { cn } from "@/lib/utils";
 import { useSidebarStore } from "@/store/sidebar-store"; // Zustand store import qilamiz
-import { Button } from "../ui/button"; // Button komponentini import qilamiz
+import { Button } from "@/components/ui/button"; // Button komponentini alias orqali import qilamiz
 
 // Sidebar navigatsiya elementlari
 const navItems = [
