@@ -2,7 +2,7 @@
 "use client"; // Client Component ekanligini bildiramiz
 
 import { Search, Bell, Menu } from "lucide-react";
-import { Input } from "../ui/input";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useSidebarStore } from "@/store/sidebar-store"; // Zustand store import qilamiz
 import { useState } from "react"; // Qidiruv maydoni holatini boshqarish uchun
